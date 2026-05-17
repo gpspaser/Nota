@@ -1,196 +1,551 @@
-<html lang="id">
+<html lang='id'>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nota Digital</title>
-<style>
-:root{
-  --pink:#FF2D55;
-  --dark:#1C1C1E;
-  --gray:#F2F2F7;
-  --border:#E5E5EA;
-}
+    <meta charset='utf-8'/>
+    <meta content='width=device-width,initial-scale=1.0' name='viewport'/>
+    <title>Flash Sale Kuliner - Dengan Form Pelanggan</title>
+    
+    <link href='https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap' rel='stylesheet'/>
+    
+    <style>
+        :root {
+            --primary-green: #00b159;
+            --light-green: #e8f5e9;
+            --accent-pink: #ff2c55;
+            --accent-orange: #ff5722;
+            --bg-light: #f4f4f4;
+            --text-dark: #333333;
+        }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
 
-body{background:var(--gray);padding:16px}
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
 
-.container{max-width:600px;margin:0 auto}
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-green), #00c853);
+            color: white;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 99;
+        }
+        
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
-.card{background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+        .logo-flash {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-h3{text-align:center;margin-bottom:20px;color:var(--dark);font-size:20px}
+        .logo-flash span { color: #ffd600; }
 
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:13px;font-weight:600;color:#666;margin-bottom:6px}
-.form-group input{width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;font-size:15px;outline:none}
-.form-group input:focus{border-color:var(--pink)}
+        .search-bar {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #fff;
+        }
 
-.item-belanja{display:flex;gap:8px;margin-bottom:8px}
-.item-belanja input{flex:1}
-.item-belanja input[type="number"]{max-width:90px}
+        .banner-promo {
+            background: linear-gradient(to right, #4a00e0, #8e2de2);
+            margin: 10px;
+            padding: 12px;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            border-left: 5px solid var(--accent-pink);
+        }
 
-.btn-tambah{width:100%;padding:10px;background:transparent;border:2px dashed var(--pink);color:var(--pink);border-radius:10px;font-weight:600;cursor:pointer;margin-top:8px}
-.btn-tambah:hover{background:#FFF5F7}
+        /* Tabs */
+        .time-slots { display: flex; background: #fff; border-bottom: 1px solid #eee; }
+        .slot { flex: 1; text-align: center; padding: 10px 0; font-size: 14px; color: #666; }
+        .slot.active { color: var(--accent-orange); font-weight: bold; border-bottom: 3px solid var(--accent-orange); background: #fff5f2; }
+        .filter-tabs { display: flex; gap: 8px; padding: 10px; overflow-x: auto; background: #fff; }
+        .tab { background: #f0f0f0; padding: 6px 15px; border-radius: 15px; font-size: 12px; white-space: nowrap; color: #555; }
+        .tab.mall { border: 1px solid var(--accent-pink); color: var(--accent-pink); background: #fff0f3; font-weight: bold; }
 
-.btn-hapus{background:#FF3B30;color:#fff;border:none;width:32px;height:32px;border-radius:8px;font-size:18px;cursor:pointer}
+        /* Menu List */
+        .menu-container { padding: 10px; margin-bottom: 80px; }
+        .menu-card { display: flex; background: white; border-radius: 8px; padding: 10px; margin-bottom: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); gap: 12px; }
+        .menu-img-wrapper { position: relative; width: 100px; height: 100px; flex-shrink: 0; }
+        .menu-img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; }
+        .badge-diskon { position: absolute; top: 0; left: 0; background: var(--accent-pink); color: white; font-size: 10px; font-weight: bold; padding: 2px 6px; border-top-left-radius: 6px; border-bottom-right-radius: 6px; }
+        .menu-info { flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .menu-title { font-size: 14px; font-weight: 600; color: #222; line-height: 1.3; }
+        .tags { display: flex; gap: 5px; margin-top: 4px; }
+        .tag-beli-lokal { background: var(--accent-pink); color: white; font-size: 10px; padding: 1px 4px; border-radius: 3px; font-weight: bold; }
+        .tag-gratis-ongkir { color: var(--primary-green); font-size: 11px; font-weight: 600; }
 
-.total-box{background:linear-gradient(135deg,#FFF5F7,#FFE8ED);border:2px solid var(--pink);border-radius:12px;padding:16px;margin:20px 0}
-.total-row{display:flex;justify-content:space-between;align-items:center}
-.total-label{font-size:14px;font-weight:600;color:#666}
-.total-amount{font-size:24px;font-weight:700;color:var(--pink)}
+        .stock-bar-container { background: #eee; border-radius: 10px; height: 8px; margin: 8px 0; position: relative; overflow: hidden; }
+        .stock-bar { background: linear-gradient(to right, var(--accent-orange), #ff9800); height: 100%; border-radius: 10px; }
+        .stock-text { font-size: 9px; position: absolute; right: 5px; top: -2px; color: #fff; font-weight: bold; }
 
-.btn-kirim{width:100%;padding:14px;background:var(--pink);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-kirim:active{transform:scale(0.98)}
+        .price-action { display: flex; justify-content: space-between; align-items: center; }
+        .price-now { color: var(--accent-pink); font-size: 16px; font-weight: 700; }
+        .price-old { color: #999; font-size: 11px; text-decoration: line-through; }
 
-.header-icon{font-size:24px}
-</style>
+        /* Tombol Tambah Keranjang */
+        .btn-add-cart {
+            background: var(--accent-pink);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Floating Cart Button */
+        .floating-cart {
+            position: fixed;
+            bottom: 20px;
+            right: calc(50% - 220px);
+            background: var(--primary-green);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 100;
+        }
+        @media (max-width: 480px) {
+            .floating-cart { right: 20px; }
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent-pink);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 7px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        /* Modal Keranjang Belanja */
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .modal-content {
+            background: white;
+            width: 100%;
+            max-width: 480px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            padding: 20px;
+            max-height: 85vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f9f9f9;
+        }
+
+        .cart-item-info h4 { font-size: 14px; font-weight: 600; }
+        .cart-item-info span { color: var(--accent-pink); font-size: 13px; font-weight: bold; }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-qty {
+            background: #eee;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Style Form Pengiriman */
+        .form-pengiriman {
+            background: #fdfdfd;
+            border: 1px solid #eef0f2;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .form-pengiriman h4 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: #444;
+            border-left: 3px solid var(--primary-green);
+            padding-left: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #666;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary-green);
+        }
+
+        .total-box {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 15px 0;
+            padding-top: 10px;
+            border-top: 2px dashed #eee;
+        }
+
+        .btn-checkout {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            display: block;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="card">
-    <h3><span class="header-icon">📝</span> Nota Digital</h3>
+    <header>
+        <div class='header-top'>
+            <div class='logo-flash'>F<span>⚡</span>ash Sale Makanan</div>
+        </div>
+        <div class='search-bar'>🔍 Cari kuliner favoritmu...</div>
+    </header>
 
-    <div class="form-group">
-      <label>🏪 Nama Toko</label>
-      <input type="text" id="nota-toko" placeholder="Toko Kurir Tiktok" value="Toko Kurir Tiktok"/>
+    <div class='banner-promo'>🔥 Diskon s.d 50% Masuk Keranjang Langsung Hitung Otomatis!</div>
+
+    <div class='time-slots'>
+        <div class='slot active'><strong>13:00</strong><br/><span style='font-size:11px'>Sekarang</span></div>
+        <div class='slot'><strong>19:00</strong><br/><span style='font-size:11px'>Berikutnya</span></div>
+    </div>
+    <div class='filter-tabs'>
+        <div class='tab active'>Semua Menu</div>
+        <div class='tab mall'>Flash Sale 🔥</div>
     </div>
 
-    <div class="form-group">
-      <label>👤 Nama Pelanggan</label>
-      <input type="text" id="nota-pelanggan" placeholder="Nama customer"/>
+    <div class='menu-container'>
+
+        <div class='menu-card' data-id='1' data-nama='Healthy Salad Bowl' data-harga='35000'>
+            <div class='menu-img-wrapper'>
+                <span class='badge-diskon'>50%</span>
+                <img class='menu-img' src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500' alt='Salad Ayam Sehat'/>
+            </div>
+            <div class='menu-info'>
+                <div>
+                    <div class='tags'><span class='tag-beli-lokal'>Beli Lokal</span><span class='tag-gratis-ongkir'>🚚 Gratis Ongkir</span></div>
+                    <h3 class='menu-title'>Healthy Salad Bowl + Grilled Chicken</h3>
+                </div>
+                <div>
+                    <div class='stock-bar-container'><div class='stock-bar' style='width: 85%;'></div><span class='stock-text'>85% Terjual</span></div>
+                    <div class='price-action'>
+                        <div><span class='price-now'>Rp35.000</span><br/><span class='price-old'>Rp70.000</span></div>
+                        <button class='btn-add-cart' onclick='tambahKeKeranjang(this)'>+ Beli</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='menu-card' data-id='2' data-nama='Premium Beef Burger' data-harga='24000'>
+            <div class='menu-img-wrapper'>
+                <span class='badge-diskon'>40%</span>
+                <img class='menu-img' src='https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500' alt='Burger Premium'/>
+            </div>
+            <div class='menu-info'>
+                <div>
+                    <div class='tags'><span class='tag-beli-lokal'>Beli Lokal</span><span class='tag-gratis-ongkir'>🚚 Gratis Ongkir</span></div>
+                    <h3 class='menu-title'>Premium Beef Burger Krispi Lumer</h3>
+                </div>
+                <div>
+                    <div class='stock-bar-container'><div class='stock-bar' style='width: 92%;'></div><span class='stock-text'>92% Terjual</span></div>
+                    <div class='price-action'>
+                        <div><span class='price-now'>Rp24.000</span><br/><span class='price-old'>Rp40.000</span></div>
+                        <button class='btn-add-cart' onclick='tambahKeKeranjang(this)'>+ Beli</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class='menu-card' data-id='3' data-nama='Pizza Mini Mozzarella' data-harga='42000'>
+            <div class='menu-img-wrapper'>
+                <span class='badge-diskon'>30%</span>
+                <img class='menu-img' src='https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500' alt='Pizza Mini'/>
+            </div>
+            <div class='menu-info'>
+                <div>
+                    <div class='tags'><span class='tag-beli-lokal'>Beli Lokal</span><span class='tag-gratis-ongkir'>🚚 Gratis Ongkir</span></div>
+                    <h3 class='menu-title'>Pizza Mini Mozzarella Spesial Molor</h3>
+                </div>
+                <div>
+                    <div class='stock-bar-container'><div class='stock-bar' style='width: 60%;'></div><span class='stock-text'>60% Terjual</span></div>
+                    <div class='price-action'>
+                        <div><span class='price-now'>Rp42.000</span><br/><span class='price-old'>Rp60.000</span></div>
+                        <button class='btn-add-cart' onclick='tambahKeKeranjang(this)'>+ Beli</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div class="form-group">
-      <label>📱 No. WhatsApp Pelanggan</label>
-      <input type="tel" id="nota-wa" placeholder="081234567890"/>
+    <div class='floating-cart' onclick='bukaKeranjang()'>
+        🛒
+        <span class='cart-badge' id='cartCount'>0</span>
     </div>
 
-    <div class="form-group">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <label style="margin:0">🛒 Item Produk</label>
-        <button onclick="hapusSemua()" style="background:#FF3B30;color:#fff;border:none;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer">🗑️ Hapus Semua</button>
-      </div>
-      <div id="listNota"></div>
-      <button class="btn-tambah" onclick="tambahItem()">+ Tambah Produk</button>
+    <div class='cart-modal' id='cartModal' onclick='tutupKeranjangLuar(event)'>
+        <div class='modal-content'>
+            <div class='modal-header'>
+                <h3>Keranjang Belanja</h3>
+                <span class='close-modal' onclick='tutupKeranjang()'>&times;</span>
+            </div>
+            
+            <div id='cartItemsList'>
+                <p style="text-align:center; color:#999; padding: 20px 0;">Keranjang masih kosong.</p>
+            </div>
+
+            <div class="form-pengiriman">
+                <h4>Form Data Pelanggan</h4>
+                <div class="form-group">
+                    <label>Nama Lengkap *</label>
+                    <input type="text" id="custNama" placeholder="Contoh: Budi Santoso" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label>No. WhatsApp Aktif *</label>
+                    <input type="tel" id="custWa" placeholder="Contoh: 081234567xxx" required="required"/>
+                </div>
+                <div class="form-group">
+                    <label>Alamat Pengiriman Lengkap *</label>
+                    <textarea id="custAlamat" rows="3" placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan..." required="required"></textarea>
+                </div>
+            </div>
+
+            <div class='total-box'>
+                <span>Total Bayar:</span>
+                <span id='totalHargaHtml'>Rp0</span>
+            </div>
+
+            <button class='btn-checkout' onclick='prosesCheckout()'>Checkout via WhatsApp (WA)</button>
+        </div>
     </div>
 
-    <div class="total-box">
-      <div class="total-row">
-        <span class="total-label">TOTAL TAGIHAN</span>
-        <span class="total-amount" id="totalBelanja">Rp 0</span>
-      </div>
-      <div style="font-size:11px;color:#999;margin-top:4px;text-align:right">
-        <span id="jumlahItem">0</span> item
-      </div>
-    </div>
+    <script>
+        let keranjang = [];
 
-    <button class="btn-kirim" onclick="kirimWA()">
-      📱 Kirim Nota ke WhatsApp
-    </button>
-  </div>
-</div>
+        function tambahKeKeranjang(button) {
+            const card = button.closest('.menu-card');
+            const id = card.getAttribute('data-id');
+            const nama = card.getAttribute('data-nama');
+            const harga = parseInt(card.getAttribute('data-harga'));
 
-<script>
-window.onload = function(){
-  tambahItem();
-}
+            const itemAda = keranjang.find(item => item.id === id);
 
-function tambahItem(){
-  const div = document.createElement('div');
-  div.className = 'item-belanja';
-  div.innerHTML = `
-    <input type="text" placeholder="Nama produk" oninput="hitungTotal()"/>
-    <input type="number" placeholder="Harga" oninput="hitungTotal()"/>
-    <input type="number" placeholder="Qty" value="1" oninput="hitungTotal()"/>
-    <button class="btn-hapus" onclick="this.parentElement.remove();hitungTotal()">×</button>
-  `;
-  document.getElementById('listNota').appendChild(div);
-  hitungTotal();
-}
+            if (itemAda) {
+                itemAda.qty += 1;
+            } else {
+                keranjang.push({ id, nama, harga, qty: 1 });
+            }
 
-function hapusSemua(){
-  if(confirm('Hapus semua item?')){
-    document.getElementById('listNota').innerHTML = '';
-    tambahItem();
-  }
-}
+            perbaruiUIKeranjang();
+        }
 
-function hitungTotal(){
-  const items = document.querySelectorAll('#listNota.item-belanja');
-  let total = 0, jmlItem = 0;
+        function ubahJumlahItem(id, jumlah) {
+            const item = keranjang.find(item => item.id === id);
+            if (item) {
+                item.qty += jumlah;
+                if (item.qty <= 0) {
+                    keranjang = keranjang.filter(item => item.id !== id);
+                }
+            }
+            perbaruiUIKeranjang();
+        }
 
-  items.forEach(i=>{
-    const inputs = i.querySelectorAll('input');
-    const produk = inputs[0].value.trim();
-    const harga = parseFloat(inputs[1].value)||0;
-    const qty = parseFloat(inputs[2].value)||0;
-    if(produk && harga>0 && qty>0){
-      total += harga * qty;
-      jmlItem += qty;
-    }
-  });
+        function perbaruiUIKeranjang() {
+            let totalItem = 0;
+            let totalHarga = 0;
+            const listContainer = document.getElementById('cartItemsList');
 
-  document.getElementById('totalBelanja').textContent = 'Rp ' + total.toLocaleString('id-ID');
-  document.getElementById('jumlahItem').textContent = jmlItem;
-}
+            if (keranjang.length === 0) {
+                listContainer.innerHTML = `<p style="text-align:center; color:#999; padding: 20px 0;">Keranjang masih kosong.</p>`;
+                document.getElementById('cartCount').innerText = '0';
+                document.getElementById('totalHargaHtml').innerText = 'Rp0';
+                return;
+            }
 
-function kirimWA(){
-  const toko = document.getElementById('nota-toko').value.trim() || 'Toko';
-  const pelanggan = document.getElementById('nota-pelanggan').value.trim();
-  const wa = document.getElementById('nota-wa').value.trim();
+            listContainer.innerHTML = '';
 
-  if(!pelanggan ||!wa){
-    alert('Isi Nama & No WA Pelanggan dulu!');
-    return;
-  }
+            keranjang.forEach(item => {
+                totalItem += item.qty;
+                totalHarga += (item.harga * item.qty);
 
-  const items = document.querySelectorAll('#listNota.item-belanja');
-  let total = 0, listText = '', adaItem = false;
+                listContainer.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <h4>${item.nama}</h4>
+                            <span>Rp${(item.harga * item.qty).toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="quantity-control">
+                            <button class="btn-qty" onclick="ubahJumlahItem('${item.id}', -1)">-</button>
+                            <span>${item.qty}</span>
+                            <button class="btn-qty" onclick="ubahJumlahItem('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
 
-  items.forEach(i=>{
-    const inputs = i.querySelectorAll('input');
-    const produk = inputs[0].value.trim();
-    const harga = parseFloat(inputs[1].value)||0;
-    const qty = parseFloat(inputs[2].value)||0;
-    if(produk && harga>0 && qty>0){
-      adaItem = true;
-      const subtotal = harga * qty;
-      total += subtotal;
-      listText += `• ${produk}%0A`;
-      listText += ` ${qty} x Rp ${harga.toLocaleString('id-ID')} = Rp ${subtotal.toLocaleString('id-ID')}%0A`;
-    }
-  });
+            document.getElementById('cartCount').innerText = totalItem;
+            document.getElementById('totalHargaHtml').innerText = 'Rp' + totalHarga.toLocaleString('id-ID');
+        }
 
-  if(!adaItem){
-    alert('Tambah minimal 1 produk dengan harga & qty yang benar!');
-    return;
-  }
+        function bukaKeranjang() {
+            document.getElementById('cartModal').style.display = 'flex';
+        }
 
-  const tanggal = new Date().toLocaleString('id-ID',{dateStyle:'medium',timeStyle:'short'});
+        function tutupKeranjang() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
 
-  let pesan = `*🧾 NOTA DIGITAL*%0A`;
-  pesan += `🏪 ${toko}%0A`;
-  pesan += `📅 ${tanggal}%0A`;
-  pesan += `━━━━━━━━━━━━━━%0A`;
-  pesan += `👤 Kepada: ${pelanggan}%0A`;
-  pesan += `━━━━━━━━━━━━━━%0A`;
-  pesan += `*📦 RINCIAN BELANJA:*%0A`;
-  pesan += `${listText}`;
-  pesan += `━━━━━━━━━━━━━━%0A`;
-  pesan += `*💰 TOTAL TAGIHAN: Rp ${total.toLocaleString('id-ID')}*%0A`;
-  pesan += `━━━━━━━━━━━━━━%0A`;
-  pesan += `Mohon segera lakukan pembayaran.%0A`;
-  pesan += `Terima kasih 🙏%0A`;
+        function tutupKeranjangLuar(e) {
+            if (e.target.id === 'cartModal') tutupKeranjang();
+        }
 
-  // Kirim ke WA pelanggan
-  const waClean = wa.replace(/[^0-9]/g,'');
-  const waFinal = waClean.startsWith('0')? '62' + waClean.substring(1) : waClean;
+        function prosesCheckout() {
+            if (keranjang.length === 0) {
+                alert('Keranjang kamu masih kosong, pilih menu dulu ya!');
+                return;
+            }
 
-  window.open(`https://wa.me/${waFinal}?text=${pesan}`,'_blank');
-}
-</script>
+            // Validasi Input Form
+            const nama = document.getElementById('custNama').value.trim();
+            const wa = document.getElementById('custWa').value.trim();
+            const alamat = document.getElementById('custAlamat').value.trim();
+
+            if (!nama || !wa || !alamat) {
+                alert('Mohon lengkapi data Nama, No. WhatsApp, dan Alamat Pengiriman terlebih dahulu!');
+                return;
+            }
+
+            let nomorWA = "623137527300"; // Nomor WA Admin
+            
+            // Format Pesanan teks untuk WA
+            let pesan = "*PESANAN BARU - FLASH SALE KULINER*\n";
+            pesan += "---------------------------------------\n";
+            pesan += `👤 *Nama:* ${nama}\n`;
+            pesan += `📱 *WhatsApp:* ${wa}\n`;
+            pesan += `📍 *Alamat:* ${alamat}\n`;
+            pesan += "---------------------------------------\n\n";
+            pesan += "📦 *Daftar Belanjaan:*\n";
+            
+            let totalHarga = 0;
+            keranjang.forEach((item, index) => {
+                let subtotal = item.harga * item.qty;
+                totalHarga += subtotal;
+                pesan += `${index + 1}. ${item.nama} (x${item.qty}) = Rp${subtotal.toLocaleString('id-ID')}\n`;
+            });
+
+            pesan += "\n---------------------------------------\n";
+            pesan += `💰 *Total Pembayaran: Rp${totalHarga.toLocaleString('id-ID')}*\n`;
+            pesan += "---------------------------------------\n\n";
+            pesan += "Mohon segera diproses dan dihitung ongkirnya ya Min! 🙏";
+
+            let urlWA = `https://wa.me/${nomorWA}?text=${encodeURIComponent(pesan)}`;
+            
+            window.open(urlWA, '_blank');
+        }
+    </script>
 
 </body>
 </html>
